@@ -8,49 +8,49 @@ import java.util.*;
 import java.util.List;
 
 public class PolygonModel extends JComponent {
-  private ArrayList<IPolygon> polygons = new ArrayList<>();
+    private ArrayList<IPolygon> polygons = new ArrayList<>();
 
-  private boolean direction = true;
-  private int ticker = 0;
+    private boolean direction = true;
+    private int ticker = 0;
 
-  public void addPolygon(IPolygon p) {
-    polygons.add(p);
-  }
-
-  @Override
-  public void paint(Graphics g) {
-    for (IPolygon polygon : polygons) {
-      polygon.paint(g);
+    public void addPolygon( IPolygon p ) {
+        polygons.add( p );
     }
-  }
 
-  public void translate(int x, int y) {
-    for (IPolygon p : polygons) {
-      p.updateCenter(p.getCenter().x + x, p.getCenter().y + y);
+    @Override
+    public void paint( Graphics g ) {
+        for ( IPolygon polygon : polygons ) {
+            polygon.paint( g );
+        }
     }
-  }
 
-  public void update() {
-    ticker++;
-    int value = direction ? 10 : -10;
-    translate(value, value);
-    notifyListeners();
-    if (ticker > 10) {
-      direction = !direction;
-      ticker = 0;
+    public void translate( int x, int y ) {
+        for ( IPolygon p : polygons ) {
+            p.updateCenter( p.getCenter().x + x, p.getCenter().y + y );
+        }
     }
-  }
 
-  private void notifyListeners() {
-    for (AnimateListener l : listeners)
-      l.actOnUpdate();
-  }
+    public void update() {
+        ticker++;
+        int value = direction ? 10 : -10;
+        translate( value, value );
+        notifyListeners();
+        if ( ticker > 10 ) {
+            direction = !direction;
+            ticker = 0;
+        }
+    }
 
-  private List<AnimateListener> listeners = new ArrayList<>();
+    private void notifyListeners() {
+        for ( AnimateListener l : listeners )
+            l.actOnUpdate();
+    }
 
-  public void addListener(AnimateListener l) {
-    listeners.add(l);
-  }
+    private List<AnimateListener> listeners = new ArrayList<>();
+
+    public void addListener( AnimateListener l ) {
+        listeners.add( l );
+    }
 
 }
 

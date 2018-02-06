@@ -3,9 +3,9 @@ package tda551.adapter;
 import java.awt.*;
 
 public interface IPolygon {
-  void paint(Graphics g);
+    void paint( Graphics g );
 
-  void updateCenter(int newX, int newY);
+    void updateCenter( int newX, int newY );
 
-  Point getCenter();
+    Point getCenter();
 }

@@ -6,59 +6,59 @@ import java.util.List;
 
 public abstract class Polygon extends Shape {
 
-  protected Polygon(int x, int y) {
-    super(x, y);
-  }
-
-  public void paint(Graphics g) {
-    List<Point> corners = getCorners();
-    // first and last point should be the same
-    corners.add(corners.get(0));
-    Point from = null;
-    for (Point to : corners) {
-      if (from != null) {
-        g.drawLine(from.x, from.y, to.x, to.y);
-      }
-      from = to;
+    protected Polygon( int x, int y ) {
+        super( x, y );
     }
-  }
 
-  protected abstract int[][] getOffsets();
+    public void paint( Graphics g ) {
+        List<Point> corners = getCorners();
+        // first and last point should be the same
+        corners.add( corners.get( 0 ) );
+        Point from = null;
+        for ( Point to : corners ) {
+            if ( from != null ) {
+                g.drawLine( from.x, from.y, to.x, to.y );
+            }
+            from = to;
+        }
+    }
 
-  private List<Point> getCorners() {
-    // Find the data for this particular polygon
-    Point center = getCenterPoint();
-    int[][] offsets = getOffsets();
-    double alpha = Math.toRadians(getRotation());
-    // Calculate points based on that data
-    return calculateCornerPoints(center, offsets, alpha);
-  }
+    protected abstract int[][] getOffsets();
+
+    private List<Point> getCorners() {
+        // Find the data for this particular polygon
+        Point center = getCenterPoint();
+        int[][] offsets = getOffsets();
+        double alpha = Math.toRadians( getRotation() );
+        // Calculate points based on that data
+        return calculateCornerPoints( center, offsets, alpha );
+    }
 
     /* Everything below this point is completely independent of any
     *  particular polygon. You can tell by the fact that the code does not
     *  mention any members (fields or methods) from the object itself. */
 
-  private List<Point> calculateCornerPoints(Point center, int[][] offsets, double alpha) {
-    List<Point> corners = new ArrayList<>(offsets.length);
-    for (int[] pointOffsets : offsets) {
-      Point newCorner = calculateCornerPoint(center, pointOffsets, alpha);
-      corners.add(newCorner);
+    private List<Point> calculateCornerPoints( Point center, int[][] offsets, double alpha ) {
+        List<Point> corners = new ArrayList<>( offsets.length );
+        for ( int[] pointOffsets : offsets ) {
+            Point newCorner = calculateCornerPoint( center, pointOffsets, alpha );
+            corners.add( newCorner );
+        }
+        return corners;
     }
-    return corners;
-  }
 
-  private Point calculateCornerPoint(Point center, int[] offset, double alpha) {
-    return rotatePoint(center, alpha,
-        movePoint(center, offset));
-  }
+    private Point calculateCornerPoint( Point center, int[] offset, double alpha ) {
+        return rotatePoint( center, alpha,
+                movePoint( center, offset ) );
+    }
 
-  private Point movePoint(Point center, int[] offset) {
-    return new Point(center.x + offset[0], center.y + offset[1]);
-  }
+    private Point movePoint( Point center, int[] offset ) {
+        return new Point( center.x + offset[0], center.y + offset[1] );
+    }
 
-  private Point rotatePoint(Point center, double alpha, Point newCorner) {
-    double newX = center.x + (newCorner.x - center.x) * Math.cos(alpha) - (newCorner.y - center.y) * Math.sin(alpha);
-    double newY = center.y + (newCorner.x - center.x) * Math.sin(alpha) + (newCorner.y - center.y) * Math.cos(alpha);
-    return new Point((int) newX, (int) newY);
-  }
+    private Point rotatePoint( Point center, double alpha, Point newCorner ) {
+        double newX = center.x + ( newCorner.x - center.x ) * Math.cos( alpha ) - ( newCorner.y - center.y ) * Math.sin( alpha );
+        double newY = center.y + ( newCorner.x - center.x ) * Math.sin( alpha ) + ( newCorner.y - center.y ) * Math.cos( alpha );
+        return new Point( (int) newX, (int) newY );
+    }
 }
